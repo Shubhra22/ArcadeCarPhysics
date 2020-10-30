@@ -12,6 +12,7 @@ public class Suspension : MonoBehaviour
     public float suspensionForce;
     public Transform[] wheels;
     public Transform[] wheelTransforms;
+    public float wheelRadius;
     
     private float throtle;
     private float steer;
@@ -27,6 +28,8 @@ public class Suspension : MonoBehaviour
 
     private float finalSpeed;
     private float finalTurnSpeed;
+    
+    
     
     private bool grounded;
     // Start is called before the first frame update
@@ -44,10 +47,12 @@ public class Suspension : MonoBehaviour
         steer = Input.Steer;
 
         finalSpeed = Mathf.SmoothStep(finalSpeed, (throtle * acceleration * Convert.ToInt16(grounded)),
-            3 * Time.deltaTime);
+            5 * Time.deltaTime);
 
-        finalTurnSpeed = Mathf.Lerp(finalTurnSpeed, steer * turnSpeed, 10 * Time.deltaTime);
-
+        if (Mathf.Abs(finalSpeed) > 0)
+        {
+            finalTurnSpeed = Mathf.Lerp(finalTurnSpeed, steer * turnSpeed, 5 * Time.deltaTime);
+        }
         
     }
     
@@ -68,20 +73,22 @@ public class Suspension : MonoBehaviour
                     rbody.AddForceAtPosition(force,w.position);
                 }
             }
+            // add downward force to simulate gravity in each wheel
             rbody.AddForceAtPosition( -w.up * 10, w.position, ForceMode.Acceleration);
+            wheelTransforms[i].position = w.position - new Vector3(0,(suspensionLength - hit[i].distance) - wheelRadius,0);
         }
         rbody.AddForceAtPosition( transform.forward * finalSpeed, transform.position, ForceMode.Acceleration);
         rbody.AddTorque(transform.up * finalTurnSpeed);
-        if (!grounded)
-        {
-            rbody.AddForce(Vector3.down * 20, ForceMode.Acceleration);
-        }
+        // if (!grounded)
+        // {
+        //     rbody.AddForce(Vector3.down * 20, ForceMode.Acceleration);
+        // }
         
-        for (int i = 0; i < hit.Length; i++)
-        {
-            wheelTransforms[i].position = hit[i].point + new Vector3(0,hit[i].distance,0);
-            wheelTransforms[i].rotation = transform.rotation;
-        }
+        // for (int i = 0; i < hit.Length; i++)
+        // {
+        //     wheelTransforms[i].position = hit[i].point + new Vector3(0,hit[i].distance,0);
+        //     wheelTransforms[i].rotation = transform.rotation;
+        // }
     }
     
     void OnDrawGizmos() 
