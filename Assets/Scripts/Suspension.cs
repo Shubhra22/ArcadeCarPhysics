@@ -33,6 +33,7 @@ public class Suspension : MonoBehaviour
     void Start()
     {
         rbody = GetComponent<Rigidbody>();
+        rbody.centerOfMass = transform.localPosition - new Vector3(0, 0.1f, 0);
         hit = new RaycastHit[wheelTransforms.Length];
     }
 
