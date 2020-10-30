@@ -13,7 +13,7 @@ public class CarMovement : MonoBehaviour
     public float throttleSpeed;
     public float steerSpeed;
 
-    public float maxAngle;
+    public Transform wheels;
 
     public float finalSpeed;
 
@@ -57,7 +57,7 @@ public class CarMovement : MonoBehaviour
     private void FixedUpdate()
     {
         rbody.AddForce(finalSpeed * transform.forward, ForceMode.Acceleration);
-        rbody.AddForce(Vector3.down * 50, ForceMode.Acceleration);
+        //rbody.AddForce(Vector3.down * 50, ForceMode.Acceleration);
         grounded = false;
         Ray ray = new Ray(rayCaster.position, -Vector3.up);
         if (Physics.Raycast(ray, out hit, 2))
