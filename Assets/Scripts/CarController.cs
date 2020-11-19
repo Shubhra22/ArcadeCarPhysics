@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-public class Suspension : MonoBehaviour
+public class CarController : MonoBehaviour
 {
     private Rigidbody rbody;
 
@@ -59,7 +59,6 @@ public class Suspension : MonoBehaviour
     private void FixedUpdate()
     {
         grounded = false;
-        //foreach (Transform w in wheels)
         for (int i = 0; i < wheels.Length; i++)
         {
             Transform w = wheels[i];
