@@ -79,16 +79,6 @@ public class Suspension : MonoBehaviour
         }
         rbody.AddForceAtPosition( transform.forward * finalSpeed, transform.position, ForceMode.Acceleration);
         rbody.AddTorque(transform.up * finalTurnSpeed);
-        // if (!grounded)
-        // {
-        //     rbody.AddForce(Vector3.down * 20, ForceMode.Acceleration);
-        // }
-        
-        // for (int i = 0; i < hit.Length; i++)
-        // {
-        //     wheelTransforms[i].position = hit[i].point + new Vector3(0,hit[i].distance,0);
-        //     wheelTransforms[i].rotation = transform.rotation;
-        // }
     }
     
     void OnDrawGizmos() 
