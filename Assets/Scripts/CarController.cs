@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody))]
+[ExecuteInEditMode]
 public class CarController : MonoBehaviour
 {
     private Rigidbody rbody;
