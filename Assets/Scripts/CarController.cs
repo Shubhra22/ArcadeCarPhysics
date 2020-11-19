@@ -61,23 +61,23 @@ public class CarController : MonoBehaviour
     private void FixedUpdate()
     {
         grounded = false;
-        for (int i = 0; i < wheels.Length; i++)
-        {
-            Transform w = wheels[i];
-            Ray ray = new Ray(w.position,-w.up);
-            if (Physics.Raycast(ray, out hit[i], suspensionLength,LayerMask.GetMask("Ground")))
-            {
-                grounded = true;
-                if (hit[i].distance < suspensionLength)
-                {
-                    Vector3 force = Vector3.up * (9.8f * (suspensionLength - hit[i].distance) * suspensionForce) / 4;
-                    rbody.AddForceAtPosition(force,w.position);
-                }
-            }
-            // add downward force to simulate gravity in each wheel
-            rbody.AddForceAtPosition( -w.up * 10, w.position, ForceMode.Acceleration);
-            wheelTransforms[i].position = w.position - new Vector3(0,(suspensionLength - hit[i].distance) - wheelRadius,0);
-        }
+        // for (int i = 0; i < wheels.Length; i++)
+        // {
+        //     Transform w = wheels[i];
+        //     Ray ray = new Ray(w.position,-w.up);
+        //     if (Physics.Raycast(ray, out hit[i], suspensionLength,LayerMask.GetMask("Ground")))
+        //     {
+        //         grounded = true;
+        //         if (hit[i].distance < suspensionLength)
+        //         {
+        //             Vector3 force = Vector3.up * (9.8f * (suspensionLength - hit[i].distance) * suspensionForce) / 4;
+        //             rbody.AddForceAtPosition(force,w.position);
+        //         }
+        //     }
+        //     // add downward force to simulate gravity in each wheel
+        //     rbody.AddForceAtPosition( -w.up * 10, w.position, ForceMode.Acceleration);
+        //     wheelTransforms[i].position = w.position - new Vector3(0,(suspensionLength - hit[i].distance) - wheelRadius,0);
+        // }
         rbody.AddForceAtPosition( transform.forward * finalSpeed, transform.position, ForceMode.Acceleration);
         rbody.AddTorque(transform.up * finalTurnSpeed);
     }
