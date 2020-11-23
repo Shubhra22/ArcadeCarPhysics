@@ -47,14 +47,11 @@ namespace JoystickLab
 
         private void OnDrawGizmosSelected()
         {
-            // Gizmos.color = Color.red;
-            // Gizmos.DrawWireSphere(transform.position,0.01f);
-            // Quaternion rotation = Quaternion.AngleAxis(90,transform.up);
-            // GizmosExtension.DrawWireCircle(transform,rotation,radius);
             if (Application.isPlaying)
             {
                 Gizmos.color = Color.blue;
-                Vector3 wheelCenter = transform.position - transform.up * springCompression;
+                float springSize = (suspensionLen - springCompression);
+                Vector3 wheelCenter = transform.position - transform.up * springSize;
                 Gizmos.DrawLine(transform.position, wheelCenter);
                 Gizmos.DrawWireSphere(wheelCenter, 0.03f);
                 
