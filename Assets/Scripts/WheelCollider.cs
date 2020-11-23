@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Rendering.VirtualTexturing;
 
 namespace JoystickLab
 {
@@ -51,8 +52,11 @@ namespace JoystickLab
 
         private void OnDrawGizmosSelected()
         {
+#if UNITY_EDITOR
             float springSize = suspensionLen;
             Vector3 wheelCenter = Vector3.zero;
+            
+            
             if (Application.isPlaying && isGrouned)
             {
                 springSize = (suspensionLen - springCompression);
@@ -63,7 +67,8 @@ namespace JoystickLab
                 wheelCenter = transform.position - transform.up * springSize;
             }
             DrawWheel(wheelCenter);
-            
+            DrawSpring(springSize);
+#endif
         }
 
         private void DrawWheel(Vector3 wheelCenter)
@@ -72,11 +77,31 @@ namespace JoystickLab
             Gizmos.DrawLine(transform.position, wheelCenter);
             Gizmos.DrawWireSphere(wheelCenter, 0.03f);
                 
-            Gizmos.color = Color.green;
+            Gizmos.color = Color.red;
             Gizmos.DrawLine(wheelCenter, wheelCenter - transform.up * radius );
                 
             Handles.color = Color.red;
             Handles.DrawWireDisc(wheelCenter,transform.right,radius);
+        }
+
+        private void DrawSpring(float springSize)
+        {
+            Handles.color = Color.green;
+            int point_detail = 200;// more points = more refined curve
+            Vector3[] points = new Vector3[point_detail];
+            float pointdist = springSize / point_detail;
+            float oscillation = 80;
+            float r = 0.1f;
+            float y = 0;
+            
+            for (int i = 0; i < point_detail; i++)
+            {
+                y += pointdist;
+                float x = r * Mathf.Cos(y * oscillation/springSize);
+                float z = r * Mathf.Sin(y * oscillation/springSize);
+                points[i] = transform.position - new Vector3(x,y,z);
+            }
+            Handles.DrawAAPolyLine(points);
         }
     }
 }
