@@ -1,4 +1,4 @@
-
+﻿
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -47,7 +47,42 @@ namespace JoystickLab
 
         private void OnDrawGizmosSelected()
         {
-            GizmosExtension.DrawWireCircle(transform.position,transform.rotation,radius);
+            // Gizmos.color = Color.red;
+            // Gizmos.DrawWireSphere(transform.position,0.01f);
+            // Quaternion rotation = Quaternion.AngleAxis(90,transform.up);
+            // GizmosExtension.DrawWireCircle(transform,rotation,radius);
+            if (Application.isPlaying)
+            {
+                Gizmos.color = Color.blue;
+                Vector3 wheelCenter = transform.position - transform.up * springCompression;
+                Gizmos.DrawLine(transform.position, wheelCenter);
+                Gizmos.DrawWireSphere(wheelCenter, 0.03f);
+                
+                Gizmos.color = Color.green;
+                Gizmos.DrawLine(wheelCenter, wheelCenter - transform.up * radius );
+                
+                Gizmos.color = Color.red;
+                 //Gizmos.DrawWireSphere(transform.position,0.01f);
+                Quaternion rotation = Quaternion.AngleAxis(90,transform.up);
+                GizmosExtension.DrawWireCircle(wheelCenter,rotation,radius);
+            }
+
+            else
+            {
+                Gizmos.color = Color.blue;
+                Vector3 wheelCenter = transform.position - transform.up * suspensionLen;
+                Gizmos.DrawLine(transform.position, wheelCenter);
+                Gizmos.DrawWireSphere(wheelCenter, 0.03f);
+            
+                Gizmos.color = Color.green;
+                Gizmos.DrawLine(wheelCenter, wheelCenter - transform.up * radius );
+                
+                Gizmos.color = Color.red;
+                //Gizmos.DrawWireSphere(transform.position,0.01f);
+                Quaternion rotation = Quaternion.AngleAxis(90,transform.up);
+                GizmosExtension.DrawWireCircle(wheelCenter,rotation,radius);
+            }
+            
         }
     }
 }
