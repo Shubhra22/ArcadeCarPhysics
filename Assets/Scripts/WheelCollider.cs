@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 namespace JoystickLab
@@ -22,6 +23,8 @@ namespace JoystickLab
         
         private RaycastHit hit;
         private Rigidbody rbody;
+
+        private bool isGrouned;
         
         // Start is called before the first frame update
         void Start()
@@ -33,9 +36,10 @@ namespace JoystickLab
         void FixedUpdate()
         {
             Ray ray = new Ray(transform.position, -transform.up);
-            
+            isGrouned = false;
             if (Physics.Raycast(ray, out hit, radius + suspensionLen, LayerMask.GetMask("Ground")))
             {
+                isGrouned = true;
                 lastSpringCompression = springCompression;
                 //Debug.DrawRay(transform.position,-transform.up * hit.distance,Color.blue);
                 springCompression = radius + suspensionLen - hit.distance;
@@ -47,39 +51,32 @@ namespace JoystickLab
 
         private void OnDrawGizmosSelected()
         {
-            if (Application.isPlaying)
+            float springSize = suspensionLen;
+            Vector3 wheelCenter = Vector3.zero;
+            if (Application.isPlaying && isGrouned)
             {
-                Gizmos.color = Color.blue;
-                float springSize = (suspensionLen - springCompression);
-                Vector3 wheelCenter = transform.position - transform.up * springSize;
-                Gizmos.DrawLine(transform.position, wheelCenter);
-                Gizmos.DrawWireSphere(wheelCenter, 0.03f);
-                
-                Gizmos.color = Color.green;
-                Gizmos.DrawLine(wheelCenter, wheelCenter - transform.up * radius );
-                
-                Gizmos.color = Color.red;
-                 //Gizmos.DrawWireSphere(transform.position,0.01f);
-                Quaternion rotation = Quaternion.AngleAxis(90,transform.up);
-                GizmosExtension.DrawWireCircle(wheelCenter,rotation,radius);
+                springSize = (suspensionLen - springCompression);
+                wheelCenter = transform.position - transform.up * springSize;
             }
-
             else
             {
-                Gizmos.color = Color.blue;
-                Vector3 wheelCenter = transform.position - transform.up * suspensionLen;
-                Gizmos.DrawLine(transform.position, wheelCenter);
-                Gizmos.DrawWireSphere(wheelCenter, 0.03f);
-            
-                Gizmos.color = Color.green;
-                Gizmos.DrawLine(wheelCenter, wheelCenter - transform.up * radius );
-                
-                Gizmos.color = Color.red;
-                //Gizmos.DrawWireSphere(transform.position,0.01f);
-                Quaternion rotation = Quaternion.AngleAxis(90,transform.up);
-                GizmosExtension.DrawWireCircle(wheelCenter,rotation,radius);
+                wheelCenter = transform.position - transform.up * springSize;
             }
+            DrawWheel(wheelCenter);
             
+        }
+
+        private void DrawWheel(Vector3 wheelCenter)
+        {
+            Gizmos.color = Color.blue;
+            Gizmos.DrawLine(transform.position, wheelCenter);
+            Gizmos.DrawWireSphere(wheelCenter, 0.03f);
+                
+            Gizmos.color = Color.green;
+            Gizmos.DrawLine(wheelCenter, wheelCenter - transform.up * radius );
+                
+            Handles.color = Color.red;
+            Handles.DrawWireDisc(wheelCenter,transform.right,radius);
         }
     }
 }
