@@ -217,7 +217,7 @@ Transform:
   m_LocalScale: {x: 100, y: 1, z: 100}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &271951953
 GameObject:
@@ -252,6 +252,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b7bcb7be45f1f341bf7fe00c2e0ae41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  wheelGraphics: {fileID: 0}
+  rbody: {fileID: 0}
   radius: 1
   suspensionLen: 2
   stiffness: 15
@@ -346,7 +348,7 @@ Transform:
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &388503095
 GameObject:
@@ -383,7 +385,7 @@ Camera:
   m_GameObject: {fileID: 388503095}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
+  m_ClearFlags: 2
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
@@ -521,8 +523,198 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 95.063995, y: -30, z: 0}
+--- !u!4 &1018791227 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3669025326872676695, guid: 49ac0fd5202b0d94ea4fbe11bd582b06, type: 3}
+  m_PrefabInstance: {fileID: 1724206064}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1548295014 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5620908029375831213, guid: 49ac0fd5202b0d94ea4fbe11bd582b06, type: 3}
+  m_PrefabInstance: {fileID: 1724206064}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1550824771 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 674126029016891594, guid: 49ac0fd5202b0d94ea4fbe11bd582b06, type: 3}
+  m_PrefabInstance: {fileID: 1724206064}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1724206064
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1724206068, guid: 49ac0fd5202b0d94ea4fbe11bd582b06, type: 3}
+      propertyPath: m_AngularDrag
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1724206068, guid: 49ac0fd5202b0d94ea4fbe11bd582b06, type: 3}
+      propertyPath: m_Interpolate
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1724206068, guid: 49ac0fd5202b0d94ea4fbe11bd582b06, type: 3}
+      propertyPath: m_CollisionDetection
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 41831703568461107, guid: 49ac0fd5202b0d94ea4fbe11bd582b06, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 111704289111005796, guid: 49ac0fd5202b0d94ea4fbe11bd582b06, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -14.299115
+      objectReference: {fileID: 0}
+    - target: {fileID: 111704289111005796, guid: 49ac0fd5202b0d94ea4fbe11bd582b06, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.646
+      objectReference: {fileID: 0}
+    - target: {fileID: 111704289111005796, guid: 49ac0fd5202b0d94ea4fbe11bd582b06, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -19.296007
+      objectReference: {fileID: 0}
+    - target: {fileID: 111704289111005796, guid: 49ac0fd5202b0d94ea4fbe11bd582b06, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 111704289111005796, guid: 49ac0fd5202b0d94ea4fbe11bd582b06, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 111704289111005796, guid: 49ac0fd5202b0d94ea4fbe11bd582b06, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 111704289111005796, guid: 49ac0fd5202b0d94ea4fbe11bd582b06, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 111704289111005796, guid: 49ac0fd5202b0d94ea4fbe11bd582b06, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 111704289111005796, guid: 49ac0fd5202b0d94ea4fbe11bd582b06, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 111704289111005796, guid: 49ac0fd5202b0d94ea4fbe11bd582b06, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 111704289111005796, guid: 49ac0fd5202b0d94ea4fbe11bd582b06, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 111704289111005797, guid: 49ac0fd5202b0d94ea4fbe11bd582b06, type: 3}
+      propertyPath: m_Name
+      value: RaiderCar
+      objectReference: {fileID: 0}
+    - target: {fileID: 172493424567581120, guid: 49ac0fd5202b0d94ea4fbe11bd582b06, type: 3}
+      propertyPath: rbody
+      value: 
+      objectReference: {fileID: 1724206068}
+    - target: {fileID: 172493424567581120, guid: 49ac0fd5202b0d94ea4fbe11bd582b06, type: 3}
+      propertyPath: suspensionLen
+      value: 0.65
+      objectReference: {fileID: 0}
+    - target: {fileID: 172493424567581120, guid: 49ac0fd5202b0d94ea4fbe11bd582b06, type: 3}
+      propertyPath: radius
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 172493424567581120, guid: 49ac0fd5202b0d94ea4fbe11bd582b06, type: 3}
+      propertyPath: wheelGraphics
+      value: 
+      objectReference: {fileID: 1018791227}
+    - target: {fileID: 413505433047990326, guid: 49ac0fd5202b0d94ea4fbe11bd582b06, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1204104658588264552, guid: 49ac0fd5202b0d94ea4fbe11bd582b06, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2775500664654575502, guid: 49ac0fd5202b0d94ea4fbe11bd582b06, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3007604735200648940, guid: 49ac0fd5202b0d94ea4fbe11bd582b06, type: 3}
+      propertyPath: rbody
+      value: 
+      objectReference: {fileID: 1724206068}
+    - target: {fileID: 3007604735200648940, guid: 49ac0fd5202b0d94ea4fbe11bd582b06, type: 3}
+      propertyPath: suspensionLen
+      value: 0.65
+      objectReference: {fileID: 0}
+    - target: {fileID: 3007604735200648940, guid: 49ac0fd5202b0d94ea4fbe11bd582b06, type: 3}
+      propertyPath: radius
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3007604735200648940, guid: 49ac0fd5202b0d94ea4fbe11bd582b06, type: 3}
+      propertyPath: wheelGraphics
+      value: 
+      objectReference: {fileID: 1724206072}
+    - target: {fileID: 3776208684519490167, guid: 49ac0fd5202b0d94ea4fbe11bd582b06, type: 3}
+      propertyPath: m_Name
+      value: Wheel_BL
+      objectReference: {fileID: 0}
+    - target: {fileID: 4842537008445446425, guid: 49ac0fd5202b0d94ea4fbe11bd582b06, type: 3}
+      propertyPath: m_Name
+      value: Wheel_FL
+      objectReference: {fileID: 0}
+    - target: {fileID: 5528594256997530269, guid: 49ac0fd5202b0d94ea4fbe11bd582b06, type: 3}
+      propertyPath: rbody
+      value: 
+      objectReference: {fileID: 1724206068}
+    - target: {fileID: 5528594256997530269, guid: 49ac0fd5202b0d94ea4fbe11bd582b06, type: 3}
+      propertyPath: suspensionLen
+      value: 0.65
+      objectReference: {fileID: 0}
+    - target: {fileID: 5528594256997530269, guid: 49ac0fd5202b0d94ea4fbe11bd582b06, type: 3}
+      propertyPath: radius
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5528594256997530269, guid: 49ac0fd5202b0d94ea4fbe11bd582b06, type: 3}
+      propertyPath: wheelGraphics
+      value: 
+      objectReference: {fileID: 1548295014}
+    - target: {fileID: 8626393941236459369, guid: 49ac0fd5202b0d94ea4fbe11bd582b06, type: 3}
+      propertyPath: m_Name
+      value: Wheel_BR
+      objectReference: {fileID: 0}
+    - target: {fileID: 8744759672279827377, guid: 49ac0fd5202b0d94ea4fbe11bd582b06, type: 3}
+      propertyPath: rbody
+      value: 
+      objectReference: {fileID: 1724206068}
+    - target: {fileID: 8744759672279827377, guid: 49ac0fd5202b0d94ea4fbe11bd582b06, type: 3}
+      propertyPath: suspensionLen
+      value: 0.65
+      objectReference: {fileID: 0}
+    - target: {fileID: 8744759672279827377, guid: 49ac0fd5202b0d94ea4fbe11bd582b06, type: 3}
+      propertyPath: radius
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8744759672279827377, guid: 49ac0fd5202b0d94ea4fbe11bd582b06, type: 3}
+      propertyPath: wheelGraphics
+      value: 
+      objectReference: {fileID: 1550824771}
+    m_RemovedComponents:
+    - {fileID: 2643595592564762364, guid: 49ac0fd5202b0d94ea4fbe11bd582b06, type: 3}
+    - {fileID: 4916950300591513485, guid: 49ac0fd5202b0d94ea4fbe11bd582b06, type: 3}
+    - {fileID: 3133849497722060643, guid: 49ac0fd5202b0d94ea4fbe11bd582b06, type: 3}
+    - {fileID: 3682265197773265046, guid: 49ac0fd5202b0d94ea4fbe11bd582b06, type: 3}
+  m_SourcePrefab: {fileID: 100100000, guid: 49ac0fd5202b0d94ea4fbe11bd582b06, type: 3}
+--- !u!54 &1724206068 stripped
+Rigidbody:
+  m_CorrespondingSourceObject: {fileID: 1724206068, guid: 49ac0fd5202b0d94ea4fbe11bd582b06, type: 3}
+  m_PrefabInstance: {fileID: 1724206064}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1724206072 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2003840667905987029, guid: 49ac0fd5202b0d94ea4fbe11bd582b06, type: 3}
+  m_PrefabInstance: {fileID: 1724206064}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &3080324008396421282
 GameObject:
   m_ObjectHideFlags: 0
@@ -540,7 +732,7 @@ GameObject:
   m_Icon: {fileID: -5487077368411116049, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &3080324008396421283
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -553,8 +745,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b7bcb7be45f1f341bf7fe00c2e0ae41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  wheelGraphics: {fileID: 0}
+  rbody: {fileID: 3080324008396421284}
   radius: 0.93
-  suspensionLen: 2.74
+  suspensionLen: 2
   stiffness: 80
   damper: 1
 --- !u!54 &3080324008396421284
@@ -585,5 +779,5 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

@@ -9,28 +9,30 @@ using UnityEngine.Rendering.VirtualTexturing;
 namespace JoystickLab
 {
     [ExecuteInEditMode]
-    [RequireComponent(typeof(Rigidbody))]
     public class WheelCollider : MonoBehaviour
     {
-        [Range(0,5)]
-        public float radius;// radius of my wheel
-        public float suspensionLen; // How big the spring is
-        public float stiffness; // kind of the force applied by the suspension spring (tightness of the spring). Differs from car to car
-        public float damper; // Damper is used to slow down the force caused by the suspension spring... it kind of causes reverse force with the stiffness??
+        [SerializeField] private Transform wheelGraphics;
+        [SerializeField] private Rigidbody rbody;
+        [SerializeField] [Range(0,5)] private float radius;// radius of my wheel
+        [SerializeField] private float suspensionLen; // How big the spring is
+        [SerializeField] private float stiffness; // kind of the force applied by the suspension spring (tightness of the spring). Differs from car to car
+        [SerializeField] private float damper; // Damper is used to slow down the force caused by the suspension spring... it kind of causes reverse force with the stiffness??
+        
         
         // we need this two compressions to find the displacement (ds) of the spring.. we use the displacement to calculate the relative velocity. (hooks law)
         private float springCompression;
         private float lastSpringCompression;
         
         private RaycastHit hit;
-        private Rigidbody rbody;
 
         private bool isGrouned;
+        
+        
         
         // Start is called before the first frame update
         void Start()
         {
-            rbody = GetComponent<Rigidbody>();
+            //rbody = GetComponent<Rigidbody>();
         }
 
         // Update is called once per frame
@@ -48,6 +50,10 @@ namespace JoystickLab
                 float suspensionForce = stiffness * springCompression + damper * relativeVelocity;
                 rbody.AddForce(transform.up * suspensionForce);
             }
+            
+            float springSize = suspensionLen - springCompression;
+            Vector3 wheelCenter = transform.position - transform.up * springSize;
+            wheelGraphics.transform.position = wheelCenter;
         }
 
         private void OnDrawGizmosSelected()
@@ -75,13 +81,16 @@ namespace JoystickLab
         {
             Gizmos.color = Color.blue;
             Gizmos.DrawLine(transform.position, wheelCenter);
-            Gizmos.DrawWireSphere(wheelCenter, 0.03f);
-                
+            Gizmos.color = Color.magenta;
+            Gizmos.DrawWireSphere(wheelCenter, 0.01f);
+            
             Gizmos.color = Color.red;
             Gizmos.DrawLine(wheelCenter, wheelCenter - transform.up * radius );
-                
             Handles.color = Color.red;
             Handles.DrawWireDisc(wheelCenter,transform.right,radius);
+            
+            Gizmos.color = Color.magenta;
+            Gizmos.DrawWireSphere(wheelCenter - transform.up * radius, 0.01f);
         }
 
         private void DrawSpring(float springSize)
