@@ -47,13 +47,15 @@ namespace JoystickLab
                 springCompression = radius + suspensionLen - hit.distance;
                 float relativeVelocity = ( springCompression - lastSpringCompression) / Time.fixedDeltaTime;
                 float suspensionForce = stiffness * springCompression + damper * relativeVelocity;
-                rbody.AddForce(transform.up * suspensionForce);
+                
                 // Apply static friction
                 Vector3 velocityAtPoint = rbody.GetPointVelocity(hit.point);
                 float sideWayFriction = (velocityAtPoint.x + transform.up.x) * suspensionForce;
                 float forwardFriction = (velocityAtPoint.z + transform.up.z) * suspensionForce;
 
                 Vector3 resultantForce = transform.up * suspensionForce - transform.right * sideWayFriction - transform.forward * forwardFriction;
+                
+                rbody.AddForceAtPosition(resultantForce,hit.point);
             }
             
             float springSize = suspensionLen - springCompression;
