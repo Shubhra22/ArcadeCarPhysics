@@ -1,4 +1,4 @@
-﻿
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -44,11 +44,16 @@ namespace JoystickLab
             {
                 isGrouned = true;
                 lastSpringCompression = springCompression;
-                //Debug.DrawRay(transform.position,-transform.up * hit.distance,Color.blue);
                 springCompression = radius + suspensionLen - hit.distance;
                 float relativeVelocity = ( springCompression - lastSpringCompression) / Time.fixedDeltaTime;
                 float suspensionForce = stiffness * springCompression + damper * relativeVelocity;
                 rbody.AddForce(transform.up * suspensionForce);
+                // Apply static friction
+                Vector3 velocityAtPoint = rbody.GetPointVelocity(hit.point);
+                float sideWayFriction = (velocityAtPoint.x + transform.up.x) * suspensionForce;
+                float forwardFriction = (velocityAtPoint.z + transform.up.z) * suspensionForce;
+
+                Vector3 resultantForce = transform.up * suspensionForce - transform.right * sideWayFriction - transform.forward * forwardFriction;
             }
             
             float springSize = suspensionLen - springCompression;
