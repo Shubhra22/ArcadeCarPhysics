@@ -1,4 +1,4 @@
-
+﻿
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -58,6 +58,11 @@ namespace JoystickLab
                 rbody.AddForceAtPosition(resultantForce,hit.point);
             }
             
+            
+        }
+
+        private void Update()
+        {
             float springSize = suspensionLen - springCompression;
             Vector3 wheelCenter = transform.position - transform.up * springSize;
             wheelGraphics.transform.position = wheelCenter;
