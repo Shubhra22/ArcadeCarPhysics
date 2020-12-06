@@ -10,11 +10,11 @@ public class CarController : MonoBehaviour
 {
     private Rigidbody rbody;
 
-    public float suspensionLength;
-    public float suspensionForce;
-    public Transform[] wheels;
-    public Transform[] wheelTransforms;
-    public float wheelRadius;
+    // public float suspensionLength;
+    // public float suspensionForce;
+    // public Transform[] wheels;
+    // public Transform[] wheelTransforms;
+    // public float wheelRadius;
     
     private float throtle;
     private float steer;
@@ -26,41 +26,41 @@ public class CarController : MonoBehaviour
 
     public Transform com;
     
-    private RaycastHit[] hit;
+    //private RaycastHit[] hit;
 
     private float finalSpeed;
     private float finalTurnSpeed;
     
     
     
-    private bool grounded;
+    private bool grounded = true;
     // Start is called before the first frame update
     void Start()
     {
         rbody = GetComponent<Rigidbody>();
-        rbody.centerOfMass = transform.localPosition - new Vector3(0, 0.1f, 0);
-        hit = new RaycastHit[wheelTransforms.Length];
+        rbody.centerOfMass = com.localPosition;//transform.localPosition - new Vector3(0, 0.1f, 0);
+        //hit = new RaycastHit[wheelTransforms.Length];
     }
 
     // Update is called once per frame
     void Update()
     {
-        throtle = Input.Throttle;
-        steer = Input.Steer;
-
-        finalSpeed = Mathf.SmoothStep(finalSpeed, (throtle * acceleration * Convert.ToInt16(grounded)),
-            5 * Time.deltaTime);
-
-        if (Mathf.Abs(finalSpeed) > 0)
-        {
-            finalTurnSpeed = Mathf.Lerp(finalTurnSpeed, steer * turnSpeed, 5 * Time.deltaTime);
-        }
+        // throtle = Input.Throttle;
+        // steer = Input.Steer;
+        //
+        // finalSpeed = Mathf.SmoothStep(finalSpeed, (throtle * acceleration * Convert.ToInt16(grounded)),
+        //     5 * Time.deltaTime);
+        //
+        // if (Mathf.Abs(finalSpeed) > 0)
+        // {
+        //     finalTurnSpeed = Mathf.Lerp(finalTurnSpeed, steer * turnSpeed, 5 * Time.deltaTime);
+        // }
         
     }
     
     private void FixedUpdate()
     {
-        grounded = false;
+        //grounded = false;
         // for (int i = 0; i < wheels.Length; i++)
         // {
         //     Transform w = wheels[i];
@@ -78,20 +78,22 @@ public class CarController : MonoBehaviour
         //     rbody.AddForceAtPosition( -w.up * 10, w.position, ForceMode.Acceleration);
         //     wheelTransforms[i].position = w.position - new Vector3(0,(suspensionLength - hit[i].distance) - wheelRadius,0);
         // }
-        rbody.AddForceAtPosition( transform.forward * finalSpeed, transform.position, ForceMode.Acceleration);
-        rbody.AddTorque(transform.up * finalTurnSpeed);
+        
+        
+        //rbody.AddForceAtPosition( transform.forward * finalSpeed, transform.position, ForceMode.Acceleration);
+        //rbody.AddTorque(transform.up * finalTurnSpeed);
     }
     
-    void OnDrawGizmos() 
-    {
-        for (int i = 0; i < wheels.Length; i++)
-        {
-            Transform w = wheels[i];
-            if (hit != null)
-            {
-                Handles.Label(w.position, hit[i].distance.ToString());
-            }
-        }
-        
-    }
+    // void OnDrawGizmos() 
+    // {
+    //     for (int i = 0; i < wheels.Length; i++)
+    //     {
+    //         Transform w = wheels[i];
+    //         if (hit != null)
+    //         {
+    //             Handles.Label(w.position, hit[i].distance.ToString());
+    //         }
+    //     }
+    //     
+    // }
 }
