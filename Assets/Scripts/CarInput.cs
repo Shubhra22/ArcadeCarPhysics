@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using SocialNinja;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(PlayerInput))]
-public class CarInput : MonoBehaviour
+public class CarInput : Manager<CarInput>
 {
     public float Throttle { get; private set; }
     public float Steer { get; private set; }

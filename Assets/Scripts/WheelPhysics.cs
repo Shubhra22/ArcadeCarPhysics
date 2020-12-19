@@ -9,7 +9,7 @@ using UnityEngine.Rendering.VirtualTexturing;
 namespace JoystickLab
 {
     [ExecuteInEditMode]
-    public class WheelCollider : MonoBehaviour
+    public class WheelPhysics : MonoBehaviour
     {
         [SerializeField] private Transform wheelGraphics;
         [SerializeField] private Rigidbody rbody;
@@ -17,6 +17,10 @@ namespace JoystickLab
         [SerializeField] private float suspensionLen; // How big the spring is
         [SerializeField] private float stiffness; // kind of the force applied by the suspension spring (tightness of the spring). Differs from car to car
         [SerializeField] private float damper; // Damper is used to slow down the force caused by the suspension spring... it kind of causes reverse force with the stiffness??
+
+        public float throttleSpeed;
+        public float steerSpeed;
+        
         
         
         // we need this two compressions to find the displacement (ds) of the spring.. we use the displacement to calculate the relative velocity. (hooks law)
@@ -52,8 +56,12 @@ namespace JoystickLab
                 Vector3 velocityAtPoint = rbody.GetPointVelocity(hit.point);
                 float sideWayFriction = (velocityAtPoint.x + transform.up.x) * suspensionForce;
                 float forwardFriction = (velocityAtPoint.z + transform.up.z) * suspensionForce;
-
-                Vector3 resultantForce = transform.up * suspensionForce - transform.right * sideWayFriction - transform.forward * forwardFriction;
+                float forwardDriveForce = throttleSpeed * suspensionForce;
+                
+                // we could get rid of the forward friction as well at this point...(ref. indie pixel). But I am not quite getting that idea/
+                // I kept " -(transform.forward * forwardFriction)" this part 
+                Vector3 resultantForce = transform.up * suspensionForce - transform.right * sideWayFriction +
+                                         forwardDriveForce * transform.forward;// - transform.forward * forwardFriction;
                 
                 rbody.AddForceAtPosition(resultantForce,hit.point);
             }
