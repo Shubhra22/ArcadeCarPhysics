@@ -107,6 +107,10 @@ namespace JoystickLab
                 case DriveType.FourWheelDrive:
                     foreach (Wheel wheel in wheels)
                     {
+                        if (wheel.wheelType == Wheel.WheelType.ForwardWheel)
+                        {
+                            wheel.wheelCollider.steerSpeed = steer * steerAngle;
+                        }
                         wheel.wheelCollider.throttleSpeed = finalSpeed;
                     }
                     break;

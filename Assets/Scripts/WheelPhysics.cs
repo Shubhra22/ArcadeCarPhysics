@@ -46,7 +46,7 @@ namespace JoystickLab
             isGrouned = false;
             if (Physics.Raycast(ray, out hit, radius + suspensionLen, LayerMask.GetMask("Ground")))
             {
-                isGrouned = true;
+                
                 lastSpringCompression = springCompression;
                 springCompression = radius + suspensionLen - hit.distance;
                 float relativeVelocity = ( springCompression - lastSpringCompression) / Time.fixedDeltaTime;
@@ -61,9 +61,12 @@ namespace JoystickLab
                 // we could get rid of the forward friction as well at this point...(ref. indie pixel). But I am not quite getting that idea/
                 // I kept " -(transform.forward * forwardFriction)" this part 
                 Vector3 resultantForce = transform.up * suspensionForce - transform.right * sideWayFriction +
-                                         forwardDriveForce * transform.forward;// - transform.forward * forwardFriction;
+                                         forwardDriveForce * transform.forward; //- transform.forward * forwardFriction;
+                
+                Debug.DrawLine(hit.point, resultantForce * 5);
                 
                 rbody.AddForceAtPosition(resultantForce,hit.point);
+                isGrouned = true;
             }
             
             
@@ -71,9 +74,18 @@ namespace JoystickLab
 
         private void Update()
         {
+            
+           transform.localRotation = Quaternion.Euler(Vector3.up * steerSpeed);
+            WheelGraphicsPlacements();
+            
+        }
+
+        void WheelGraphicsPlacements()
+        {
             float springSize = suspensionLen - springCompression;
             Vector3 wheelCenter = transform.position - transform.up * springSize;
             wheelGraphics.transform.position = wheelCenter;
+            wheelGraphics.transform.localRotation = transform.localRotation;
         }
 
         private void OnDrawGizmosSelected()
