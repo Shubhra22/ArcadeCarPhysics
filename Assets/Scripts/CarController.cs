@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using UnityEngine;
 
 namespace JoystickLab
@@ -63,7 +63,7 @@ namespace JoystickLab
         }
 
         // Update is called once per frame
-        void Update()
+        void FixedUpdate()
         {
             throtle = Input.Throttle;
             steer = Input.Steer;
@@ -71,7 +71,7 @@ namespace JoystickLab
                 ? Mathf.SmoothStep(finalSpeed, (throtle * acceleration),
                     accelRate * Time.deltaTime)
                 : throtle * acceleration;
-            
+            finalTurnSpeed = Mathf.Lerp(finalTurnSpeed, steer * steerAngle, steerSpeedRate * Time.deltaTime);
             DriveCar();
             //
             // if (Mathf.Abs(finalSpeed) > 0)
@@ -93,7 +93,7 @@ namespace JoystickLab
                         }
                         else
                         {
-                            wheel.wheelCollider.steerSpeed = steer * steerAngle;
+                            wheel.wheelCollider.steerSpeed = finalTurnSpeed;
                         }
                     }
                     break;
@@ -106,7 +106,7 @@ namespace JoystickLab
                         }
                         else
                         {
-                            wheel.wheelCollider.steerSpeed = steer * steerAngle;
+                            wheel.wheelCollider.steerSpeed = finalTurnSpeed;
                         }
                     }
                     break;
