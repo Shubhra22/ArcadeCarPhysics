@@ -79,8 +79,8 @@ Rigidbody:
   m_GameObject: {fileID: 111704289111005797}
   serializedVersion: 2
   m_Mass: 5
-  m_Drag: 0.1
-  m_AngularDrag: 0.1
+  m_Drag: 0
+  m_AngularDrag: 0
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
@@ -124,13 +124,14 @@ MonoBehaviour:
   - name: BR
     wheelCollider: {fileID: 172493424567581120}
     wheelType: 1
+  com: {fileID: 975965259}
+  driveType: 1
   acceleration: 1
   steerAngle: 30
+  steerSpeedRate: 0
   accelRate: 0
   Input: {fileID: 0}
-  com: {fileID: 975965259}
   useLerp: 0
-  driveType: 1
 --- !u!1 &2408028591352315504
 GameObject:
   m_ObjectHideFlags: 0
