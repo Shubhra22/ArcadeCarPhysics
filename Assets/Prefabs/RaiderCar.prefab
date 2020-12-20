@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 975965258}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.052, y: 0.61, z: 0.48}
+  m_LocalPosition: {x: 0.052, y: 0.01, z: 0.18}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 111704289111005796}
@@ -126,12 +126,15 @@ MonoBehaviour:
     wheelType: 1
   com: {fileID: 975965259}
   driveType: 1
+  steerType: 0
   acceleration: 1
-  steerAngle: 30
-  steerSpeedRate: 0
   accelRate: 0
-  Input: {fileID: 0}
+  steerRadius: 10
+  wheelBase: 2
+  trackDist: 1.5
+  steerSpeedRate: 5
   useLerp: 0
+  Input: {fileID: 0}
 --- !u!1 &2408028591352315504
 GameObject:
   m_ObjectHideFlags: 0
@@ -184,6 +187,7 @@ MonoBehaviour:
   damper: 8
   throttleSpeed: 0
   steerSpeed: 0
+  wheelPos: 0
 --- !u!1 &3112928697005372993
 GameObject:
   m_ObjectHideFlags: 0
@@ -1196,6 +1200,7 @@ MonoBehaviour:
   damper: 8
   throttleSpeed: 0
   steerSpeed: 0
+  wheelPos: 0
 --- !u!1 &3682543226053472424
 GameObject:
   m_ObjectHideFlags: 0
@@ -1456,6 +1461,7 @@ MonoBehaviour:
   damper: 8
   throttleSpeed: 0
   steerSpeed: 0
+  wheelPos: 1
 --- !u!1 &6853837082080147560
 GameObject:
   m_ObjectHideFlags: 0
@@ -1670,6 +1676,7 @@ MonoBehaviour:
   damper: 8
   throttleSpeed: 0
   steerSpeed: 0
+  wheelPos: 1
 --- !u!1 &8626393941236459369
 GameObject:
   m_ObjectHideFlags: 0

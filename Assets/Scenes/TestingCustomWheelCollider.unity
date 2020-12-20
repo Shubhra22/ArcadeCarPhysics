@@ -260,6 +260,7 @@ MonoBehaviour:
   damper: 1
   throttleSpeed: 0
   steerSpeed: 0
+  wheelPos: 0
 --- !u!54 &271951955
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -429,7 +430,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 388503095}
-  m_LocalRotation: {x: 0.26637766, y: -0.010955344, z: 0.0030278626, w: 0.96380174}
+  m_LocalRotation: {x: 0.2663784, y: -0.010720264, z: 0.0029628898, w: 0.9638044}
   m_LocalPosition: {x: 0, y: 4.7, z: 5.0476236}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -611,7 +612,7 @@ MonoBehaviour:
   m_FollowOffset: {x: 0, y: 3, z: -3.9523764}
   m_XDamping: 1
   m_YDamping: 1
-  m_ZDamping: 3
+  m_ZDamping: 1
   m_AngularDampingMode: 0
   m_PitchDamping: 0
   m_YawDamping: 6
@@ -720,7 +721,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1425590774}
-  m_LocalRotation: {x: 0.26637766, y: -0.010955344, z: 0.0030278626, w: 0.96380174}
+  m_LocalRotation: {x: 0.2663784, y: -0.010720264, z: 0.0029628898, w: 0.9638044}
   m_LocalPosition: {x: 0, y: 4.7, z: 5.0476236}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -813,14 +814,6 @@ PrefabInstance:
       propertyPath: Input
       value: 
       objectReference: {fileID: 1553300077}
-    - target: {fileID: 631955989, guid: 49ac0fd5202b0d94ea4fbe11bd582b06, type: 3}
-      propertyPath: steerSpeedRate
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 631955989, guid: 49ac0fd5202b0d94ea4fbe11bd582b06, type: 3}
-      propertyPath: steerAngle
-      value: 20
-      objectReference: {fileID: 0}
     - target: {fileID: 111704289111005796, guid: 49ac0fd5202b0d94ea4fbe11bd582b06, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -909,6 +902,7 @@ MonoBehaviour:
   damper: 1
   throttleSpeed: 0
   steerSpeed: 0
+  wheelPos: 0
 --- !u!54 &3080324008396421284
 Rigidbody:
   m_ObjectHideFlags: 0

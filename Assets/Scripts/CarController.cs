@@ -33,15 +33,29 @@ namespace JoystickLab
         }
         [SerializeField] private DriveType driveType;
 
-        private float throtle;
-        private float steer;
-
+        enum SteerType
+        {
+            AckermanSteering,
+            ParallelSteering,
+        }
+        [SerializeField] private SteerType steerType;
         
+        private float _throtle;// store input throttle
+        private float _steer; // store input steer
+        private float _brake; // store input brake
+        
+
         [Header("Car Speed and Steering")]
         public float acceleration;
-        public float steerAngle;
-        public float steerSpeedRate;
         public float accelRate; // How fast should it gain the max speed
+
+        [Tooltip("the radius of the turn Standard 10.4-10.7m")]
+        public float steerRadius; // the radius of the turn as experienced by the centerline of the vehicle.
+        [Tooltip("Distance between the two axles")]
+        public float wheelBase; //the wheelbase of the vehicle (distance between the two axles).
+        [Tooltip("Distance between center line of each tyre")]
+        public float trackDist; // the track (distance between center line of each tyre).
+        public float steerSpeedRate; //who fast the steer will change
         [SerializeField] private bool useLerp;
         
         [Header("Input Configuration")]
@@ -50,34 +64,28 @@ namespace JoystickLab
         private float finalSpeed;
         private float finalTurnSpeed;
 
-        
-
-
-        
         private bool grounded = true;
         // Start is called before the first frame update
         void Start()
         {
             rbody = GetComponent<Rigidbody>();
             rbody.centerOfMass = com.localPosition;
+            foreach (Wheel wheel in wheels)
+            {
+                wheel.wheelCollider.SetSteerParam(wheelBase,steerRadius,trackDist,steerSpeedRate);
+            }
         }
 
         // Update is called once per frame
         void FixedUpdate()
         {
-            throtle = Input.Throttle;
-            steer = Input.Steer;
+            _throtle = Input.Throttle;
+            _steer = Input.Steer;
             finalSpeed = useLerp
-                ? Mathf.SmoothStep(finalSpeed, (throtle * acceleration),
+                ? Mathf.SmoothStep(finalSpeed, (_throtle * acceleration),
                     accelRate * Time.deltaTime)
-                : throtle * acceleration;
-            finalTurnSpeed = Mathf.Lerp(finalTurnSpeed, steer * steerAngle, steerSpeedRate * Time.deltaTime);
+                : _throtle * acceleration;
             DriveCar();
-            //
-            // if (Mathf.Abs(finalSpeed) > 0)
-            // {
-            //     finalTurnSpeed = Mathf.Lerp(finalTurnSpeed, steer * turnSpeed, 5 * Time.deltaTime);
-            // }
         }
 
         void DriveCar()
@@ -93,7 +101,7 @@ namespace JoystickLab
                         }
                         else
                         {
-                            wheel.wheelCollider.steerSpeed = finalTurnSpeed;
+                            wheel.wheelCollider.steerSpeed = _steer * steerRadius;
                         }
                     }
                     break;
@@ -106,7 +114,7 @@ namespace JoystickLab
                         }
                         else
                         {
-                            wheel.wheelCollider.steerSpeed = finalTurnSpeed;
+                            wheel.wheelCollider.steerSpeed = _steer * steerRadius;
                         }
                     }
                     break;
@@ -115,12 +123,13 @@ namespace JoystickLab
                     {
                         if (wheel.wheelType == Wheel.WheelType.ForwardWheel)
                         {
-                            wheel.wheelCollider.steerSpeed = steer * steerAngle;
+                            wheel.wheelCollider.steerSpeed = _steer * steerRadius;
                         }
                         wheel.wheelCollider.throttleSpeed = finalSpeed;
                     }
                     break;
             }
+            
         }
     }
 

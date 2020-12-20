@@ -30,9 +30,24 @@ namespace JoystickLab
         private RaycastHit hit;
 
         private bool isGrouned;
+
+        private float finalTurnSpeed;
         
+        // L is the wheelbase of the vehicle (distance between the two axles).
+        // T is the track (distance between center line of each tyre).
+        // R is the radius of the turn as experienced by the centerline of the vehicle.
+        private float _wheelBase = 2.2f;
+        private float _track = 6;
+        private float _turnRadius = 10;
+        private float _turnSpeedRate = 5;
         
-        
+        private enum WheelPos
+        {
+            Left,
+            Right
+        }
+
+        [SerializeField]private WheelPos wheelPos;
         // Start is called before the first frame update
         void Start()
         {
@@ -75,12 +90,43 @@ namespace JoystickLab
 
         private void Update()
         {
-            
-           transform.localRotation = Quaternion.Euler(Vector3.up * steerSpeed);
+            Steer(_wheelBase,_turnRadius,_track);
             WheelGraphicsPlacements();
             
         }
 
+        public void SetSteerParam(float L, float R, float T, float turnRate)
+        {
+            _track = T;
+            _turnRadius = R;
+            _wheelBase = L;
+            _turnSpeedRate = turnRate;
+        }
+
+        // Acerman Steering https://datagenetics.com/blog/december12016/index.html
+        // L is the wheelbase of the vehicle (distance between the two axles).
+        // T is the track (distance between center line of each tyre).
+        // R is the radius of the turn as experienced by the centerline of the vehicle.
+        void Steer(float L, float R, float T)
+        {
+            float insideWheelAngle = Mathf.Rad2Deg * Mathf.Atan2(L , (R - T / 2));
+            float outsideWheelAngle = Mathf.Rad2Deg * Mathf.Atan2(L , (R + T / 2));
+            
+            switch (wheelPos)
+            {
+                case WheelPos.Left:
+                    finalTurnSpeed = Mathf.Lerp(finalTurnSpeed, insideWheelAngle * Sign(steerSpeed), _turnSpeedRate * Time.deltaTime);
+                    break;
+                case WheelPos.Right:
+                    finalTurnSpeed = Mathf.Lerp(finalTurnSpeed, outsideWheelAngle * Sign(steerSpeed), _turnSpeedRate * Time.deltaTime);
+                    break;
+            }
+            transform.localRotation = Quaternion.Euler(Vector3.up * finalTurnSpeed);
+        }
+        
+        int Sign(float number) {
+            return number < 0 ? -1 : (number > 0 ? 1 : 0);
+        }
         void WheelGraphicsPlacements()
         {
             float springSize = suspensionLen - springCompression;
