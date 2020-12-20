@@ -33,6 +33,14 @@ public class @CarInputAction : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Brake"",
+                    ""type"": ""Button"",
+                    ""id"": ""a0ec0bf0-0828-4e17-89b9-61b299ae29f2"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -167,6 +175,28 @@ public class @CarInputAction : IInputActionCollection, IDisposable
                     ""action"": ""Throttle"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""da339c08-d53b-460e-89eb-46b6fe253bde"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Brake"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ffed1ba5-f5db-4ecc-827c-7bfcbd4d0d41"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Brake"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -177,6 +207,7 @@ public class @CarInputAction : IInputActionCollection, IDisposable
         m_CarInput = asset.FindActionMap("CarInput", throwIfNotFound: true);
         m_CarInput_Steer = m_CarInput.FindAction("Steer", throwIfNotFound: true);
         m_CarInput_Throttle = m_CarInput.FindAction("Throttle", throwIfNotFound: true);
+        m_CarInput_Brake = m_CarInput.FindAction("Brake", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -228,12 +259,14 @@ public class @CarInputAction : IInputActionCollection, IDisposable
     private ICarInputActions m_CarInputActionsCallbackInterface;
     private readonly InputAction m_CarInput_Steer;
     private readonly InputAction m_CarInput_Throttle;
+    private readonly InputAction m_CarInput_Brake;
     public struct CarInputActions
     {
         private @CarInputAction m_Wrapper;
         public CarInputActions(@CarInputAction wrapper) { m_Wrapper = wrapper; }
         public InputAction @Steer => m_Wrapper.m_CarInput_Steer;
         public InputAction @Throttle => m_Wrapper.m_CarInput_Throttle;
+        public InputAction @Brake => m_Wrapper.m_CarInput_Brake;
         public InputActionMap Get() { return m_Wrapper.m_CarInput; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -249,6 +282,9 @@ public class @CarInputAction : IInputActionCollection, IDisposable
                 @Throttle.started -= m_Wrapper.m_CarInputActionsCallbackInterface.OnThrottle;
                 @Throttle.performed -= m_Wrapper.m_CarInputActionsCallbackInterface.OnThrottle;
                 @Throttle.canceled -= m_Wrapper.m_CarInputActionsCallbackInterface.OnThrottle;
+                @Brake.started -= m_Wrapper.m_CarInputActionsCallbackInterface.OnBrake;
+                @Brake.performed -= m_Wrapper.m_CarInputActionsCallbackInterface.OnBrake;
+                @Brake.canceled -= m_Wrapper.m_CarInputActionsCallbackInterface.OnBrake;
             }
             m_Wrapper.m_CarInputActionsCallbackInterface = instance;
             if (instance != null)
@@ -259,6 +295,9 @@ public class @CarInputAction : IInputActionCollection, IDisposable
                 @Throttle.started += instance.OnThrottle;
                 @Throttle.performed += instance.OnThrottle;
                 @Throttle.canceled += instance.OnThrottle;
+                @Brake.started += instance.OnBrake;
+                @Brake.performed += instance.OnBrake;
+                @Brake.canceled += instance.OnBrake;
             }
         }
     }
@@ -267,5 +306,6 @@ public class @CarInputAction : IInputActionCollection, IDisposable
     {
         void OnSteer(InputAction.CallbackContext context);
         void OnThrottle(InputAction.CallbackContext context);
+        void OnBrake(InputAction.CallbackContext context);
     }
 }

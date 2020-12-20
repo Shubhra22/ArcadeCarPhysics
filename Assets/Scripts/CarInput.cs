@@ -11,6 +11,7 @@ public class CarInput : Manager<CarInput>
     public float Throttle { get; private set; }
     public float Steer { get; private set; }
 
+    public float Brake { get; private set; }
     private CarInputAction _inputAction;
     // Start is called before the first frame update
     void Awake()
@@ -33,5 +34,6 @@ public class CarInput : Manager<CarInput>
     {
         Throttle = _inputAction.CarInput.Throttle.ReadValue<float>();
         Steer = _inputAction.CarInput.Steer.ReadValue<float>();
+        Brake = _inputAction.CarInput.Brake.ReadValue<float>();
     }
 }
