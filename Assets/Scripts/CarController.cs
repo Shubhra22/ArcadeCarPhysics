@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 
 namespace JoystickLab
@@ -21,32 +21,38 @@ namespace JoystickLab
     public class CarController : MonoBehaviour
     {
         private Rigidbody rbody;
-        public Wheel[] wheels;
         
-        private float throtle;
-        private float steer;
-
-        public float acceleration;
-        public float steerAngle;
-
-        public float accelRate; // How fast should it gain the max speed
-    
-        public CarInput Input;
-
+        [Header("Wheel Configuration")]
+        public Wheel[] wheels;
         public Transform com;
-
-        private float finalSpeed;
-        private float finalTurnSpeed;
-
-        [SerializeField] private bool useLerp;
         enum DriveType
         {
             ForwardWheelDrive,
             RearWheelDrive,
             FourWheelDrive
         }
+        [SerializeField] private DriveType driveType;
 
-        [SerializeField]private DriveType driveType;
+        private float throtle;
+        private float steer;
+
+        
+        [Header("Car Speed and Steering")]
+        public float acceleration;
+        public float steerAngle;
+        public float steerSpeedRate;
+        public float accelRate; // How fast should it gain the max speed
+        [SerializeField] private bool useLerp;
+        
+        [Header("Input Configuration")]
+        public CarInput Input;
+        
+        private float finalSpeed;
+        private float finalTurnSpeed;
+
+        
+
+
         
         private bool grounded = true;
         // Start is called before the first frame update
