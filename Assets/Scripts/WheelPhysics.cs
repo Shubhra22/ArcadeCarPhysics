@@ -56,15 +56,15 @@ namespace JoystickLab
                
                 // Apply static friction
                 float sideWayFriction = (_wheelVelocity.x + transform.up.x) * suspensionForce;
-                float forwardFriction = (_wheelVelocity.z + transform.up.z) * suspensionForce;
+                float forwardFriction = (_wheelVelocity.z + transform.up.z) * suspensionForce/5;
                 float forwardDriveForce = throttleSpeed * suspensionForce;
-                
+
+                Vector3 up = transform.up;
+                up.z = 0;
                 // we could get rid of the forward friction as well at this point...(ref. indie pixel). But I am not quite getting that idea/
                 // I kept " -(transform.forward * forwardFriction)" this part 
-                Vector3 resultantForce = transform.up * suspensionForce - transform.right * sideWayFriction +
-                                         forwardDriveForce * transform.forward; //- transform.forward * forwardFriction;
-                
-                Debug.DrawLine(hit.point, resultantForce * 5);
+                Vector3 resultantForce = up * suspensionForce - transform.right * sideWayFriction +
+                                         forwardDriveForce * transform.forward;// - transform.forward * forwardFriction;
                 
                 rbody.AddForceAtPosition(resultantForce,hit.point);
                 isGrouned = true;
@@ -86,7 +86,15 @@ namespace JoystickLab
             float springSize = suspensionLen - springCompression;
             Vector3 wheelCenter = transform.position - transform.up * springSize;
             wheelGraphics.transform.position = wheelCenter;
-            wheelGraphics.transform.localRotation = transform.localRotation;
+
+
+            float rotationDir = Vector3.Dot(_wheelVelocity.normalized, transform.forward);
+            // Calculate Angular Velocity... w = 2*pi*f from HighSchool physics.
+            float circumference = 2f * Mathf.PI * radius; // d = 2*pi*r
+            float frequency = _wheelVelocity.magnitude/circumference;// f = 1/t ; but d = vt, so f = 1/d/v ; => f=v/d
+            float angularVelocity = 360 * frequency * rotationDir; // so angular velocity w = 2*pi*f. convert it to degree 2*pi = 360 
+
+            wheelGraphics.transform.Rotate(angularVelocity * Time.deltaTime,0,0);
         }
 
         private void OnDrawGizmosSelected()
