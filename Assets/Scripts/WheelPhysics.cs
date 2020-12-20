@@ -1,4 +1,4 @@
-﻿
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -20,8 +20,8 @@ namespace JoystickLab
 
         public float throttleSpeed;
         public float steerSpeed;
-        
-        
+
+        private Vector3 _wheelVelocity;
         
         // we need this two compressions to find the displacement (ds) of the spring.. we use the displacement to calculate the relative velocity. (hooks law)
         private float springCompression;
@@ -51,11 +51,12 @@ namespace JoystickLab
                 springCompression = radius + suspensionLen - hit.distance;
                 float relativeVelocity = ( springCompression - lastSpringCompression) / Time.fixedDeltaTime;
                 float suspensionForce = stiffness * springCompression + damper * relativeVelocity;
-                
+
+                _wheelVelocity = transform.InverseTransformDirection(rbody.GetPointVelocity(hit.point));
+               
                 // Apply static friction
-                Vector3 velocityAtPoint = rbody.GetPointVelocity(hit.point);
-                float sideWayFriction = (velocityAtPoint.x + transform.up.x) * suspensionForce;
-                float forwardFriction = (velocityAtPoint.z + transform.up.z) * suspensionForce;
+                float sideWayFriction = (_wheelVelocity.x + transform.up.x) * suspensionForce;
+                float forwardFriction = (_wheelVelocity.z + transform.up.z) * suspensionForce;
                 float forwardDriveForce = throttleSpeed * suspensionForce;
                 
                 // we could get rid of the forward friction as well at this point...(ref. indie pixel). But I am not quite getting that idea/
