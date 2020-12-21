@@ -20,7 +20,9 @@ namespace JoystickLab
 
         public float throttleSpeed;
         public float steerSpeed;
-
+        public float brakeForce;
+        public float slipForce;
+        
         private Vector3 _wheelVelocity;
         
         // we need this two compressions to find the displacement (ds) of the spring.. we use the displacement to calculate the relative velocity. (hooks law)
@@ -32,7 +34,6 @@ namespace JoystickLab
         private bool isGrouned;
 
         private float finalTurnSpeed;
-        
         // L is the wheelbase of the vehicle (distance between the two axles).
         // T is the track (distance between center line of each tyre).
         // R is the radius of the turn as experienced by the centerline of the vehicle.
@@ -40,6 +41,7 @@ namespace JoystickLab
         private float _track = 6;
         private float _turnRadius = 10;
         private float _turnSpeedRate = 5;
+        
         
         private enum WheelPos
         {
@@ -68,12 +70,15 @@ namespace JoystickLab
                 float suspensionForce = stiffness * springCompression + damper * relativeVelocity;
 
                 _wheelVelocity = transform.InverseTransformDirection(rbody.GetPointVelocity(hit.point));
-               
+                
+                float sideSlip = CalculateSideSlip();
                 // Apply static friction
-                float sideWayFriction = (_wheelVelocity.x + transform.up.x) * suspensionForce;
+                float sideWayFriction = (_wheelVelocity.x + transform.up.x) * suspensionForce *(1 + sideSlip);
                 float forwardFriction = (_wheelVelocity.z + transform.up.z) * suspensionForce/5;
                 float forwardDriveForce = throttleSpeed * suspensionForce;
 
+                forwardDriveForce -= brakeForce;
+                
                 Vector3 up = transform.up;
                 up.z = 0;
                 // we could get rid of the forward friction as well at this point...(ref. indie pixel). But I am not quite getting that idea/
@@ -93,6 +98,27 @@ namespace JoystickLab
             Steer(_wheelBase,_turnRadius,_track);
             WheelGraphicsPlacements();
             
+        }
+
+        // https://en.wikipedia.org/wiki/Slip_angle
+        //In vehicle dynamics, slip angle[1] or sideslip angle[2] is the angle between the direction
+        //in which a wheel is pointing and the direction in which it is actually traveling (i.e., the angle between the forward velocity vector
+        //v_x and the vector sum of wheel forward velocity v_x and lateral velocity v_y
+        
+        // So basically the dot product of this two vector will give us displacement from one vector to another.
+        float CalculateSideSlip()
+        {
+            Vector3 wheelVelocity = rbody.velocity.normalized;
+            wheelVelocity.y = 0;
+            wheelVelocity = wheelVelocity.normalized;
+
+            Vector3 wheelForward = transform.forward;
+            wheelForward.y = 0;
+            wheelForward = wheelForward.normalized;
+
+            float dot = Vector3.Dot(wheelVelocity, wheelForward);
+            
+            return Mathf.Abs(dot) * slipForce;
         }
 
         public void SetSteerParam(float L, float R, float T, float turnRate)
@@ -142,8 +168,8 @@ namespace JoystickLab
 
             wheelGraphics.transform.Rotate(angularVelocity * Time.deltaTime,0,0);
         }
-
-        private void OnDrawGizmosSelected()
+#if UNITY_EDITOR
+                private void OnDrawGizmosSelected()
         {
 #if UNITY_EDITOR
             float springSize = suspensionLen;
@@ -199,6 +225,8 @@ namespace JoystickLab
             }
             Handles.DrawAAPolyLine(points);
         }
+#endif
+
     }
 }
 

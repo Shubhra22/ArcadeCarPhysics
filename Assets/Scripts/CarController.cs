@@ -48,7 +48,6 @@ namespace JoystickLab
         [Header("Car Speed and Steering")]
         public float acceleration;
         public float accelRate; // How fast should it gain the max speed
-
         [Tooltip("the radius of the turn Standard 10.4-10.7m")]
         public float steerRadius; // the radius of the turn as experienced by the centerline of the vehicle.
         [Tooltip("Distance between the two axles")]
@@ -56,7 +55,13 @@ namespace JoystickLab
         [Tooltip("Distance between center line of each tyre")]
         public float trackDist; // the track (distance between center line of each tyre).
         public float steerSpeedRate; //who fast the steer will change
+        public float brakeForce;
+        
         [SerializeField] private bool useLerp;
+
+        [Header("Slip Configuration")] 
+        public AnimationCurve sideSlipCoef;
+        public float slipAmount;
         
         [Header("Input Configuration")]
         public CarInput Input;
@@ -81,6 +86,7 @@ namespace JoystickLab
         {
             _throtle = Input.Throttle;
             _steer = Input.Steer;
+            _brake = Input.Brake;
             finalSpeed = useLerp
                 ? Mathf.SmoothStep(finalSpeed, (_throtle * acceleration),
                     accelRate * Time.deltaTime)
@@ -103,6 +109,8 @@ namespace JoystickLab
                         {
                             wheel.wheelCollider.steerSpeed = _steer * steerRadius;
                         }
+                        ApplyBrake(wheel); 
+                        ApplySlip(wheel);
                     }
                     break;
                 case DriveType.RearWheelDrive:
@@ -116,6 +124,8 @@ namespace JoystickLab
                         {
                             wheel.wheelCollider.steerSpeed = _steer * steerRadius;
                         }
+                        ApplyBrake(wheel); 
+                        ApplySlip(wheel);
                     }
                     break;
                 case DriveType.FourWheelDrive:
@@ -126,10 +136,33 @@ namespace JoystickLab
                             wheel.wheelCollider.steerSpeed = _steer * steerRadius;
                         }
                         wheel.wheelCollider.throttleSpeed = finalSpeed;
+                        ApplyBrake(wheel); 
+                        ApplySlip(wheel);
                     }
+                    
                     break;
             }
-            
+        }
+
+        void ApplyBrake(Wheel wheel)
+        {
+            wheel.wheelCollider.brakeForce = _brake * brakeForce;
+        }
+
+        void ApplySlip(Wheel wheel)
+        {
+            float slip = Mathf.InverseLerp(0, 65, rbody.velocity.magnitude * slipAmount);
+            wheel.wheelCollider.slipForce = sideSlipCoef.Evaluate(slip);
+        }
+
+        void OnDrawGizmos()
+        {
+#if UNITY_EDITOR
+            Vector3 pos = transform.position;
+            pos.y = 2.8f;
+            Debug.DrawLine(pos + transform.forward * wheelBase,pos - transform.forward * wheelBase, Color.red);
+            Debug.DrawLine(pos + transform.right * trackDist,pos - transform.right * trackDist, Color.green);
+#endif
         }
     }
 
